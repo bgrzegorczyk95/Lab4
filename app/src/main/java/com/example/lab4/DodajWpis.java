@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 public class DodajWpis extends AppCompatActivity {
@@ -19,20 +20,11 @@ public class DodajWpis extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dodaj_wpis);
 
-        final Button przycisk = (Button) findViewById(R.id.button);
-        przycisk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wyslij(v);
-            }
-        });
-
         ArrayAdapter gatunki = new ArrayAdapter(
                 this,
                 android.R.layout.simple_spinner_dropdown_item,
                 new String[] {"Pies", "Kot", "Rybki"});
-        Spinner gatunek = (Spinner) findViewById
-                (R.id.spinner);
+        Spinner gatunek = (Spinner) findViewById(R.id.spinner);
         gatunek.setAdapter(gatunki);
 
         Bundle extras = getIntent().getExtras();
@@ -42,12 +34,13 @@ public class DodajWpis extends AppCompatActivity {
                 EditText kolor = (EditText) findViewById(R.id.kolor);
                 EditText wielkosc = (EditText) findViewById(R.id.wielkosc);
                 EditText opis = (EditText) findViewById(R.id.opis);
+
                 kolor.setText(zwierz.getKolor());
                 wielkosc.setText(Float.toString(zwierz.getWielkosc()));
                 opis.setText(zwierz.getOpis());
                 this.modyfi_id=zwierz.get_id();
             }
-        }catch(Exception ex) {
+        } catch(Exception ex) {
             this.modyfi_id=0;
         }
     }
@@ -57,6 +50,7 @@ public class DodajWpis extends AppCompatActivity {
         EditText wielkosc = (EditText) findViewById (R.id.wielkosc);
         EditText opis = (EditText) findViewById(R.id.opis);
         Spinner gatunek = (Spinner) findViewById(R.id.spinner);
+
         Animal zwierze = new Animal(
                 gatunek.getSelectedItem().toString(),
                 kolor.getText().toString(),

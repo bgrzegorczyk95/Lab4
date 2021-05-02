@@ -28,7 +28,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String[] values = new String[]{"Pies", "Kot", "Kon", "Galab"};
+        String[] values = new String[]{
+                "Pies", "Kot", "Koń", "Gołąb", "Kruk", "Dzik", "Karp",
+                "Osioł", "Chomik", "Mysz", "Jeż", "Kraluch"
+        };
+
         this.target = new ArrayList<String>();
         this.target.addAll(Arrays.asList(values));
 
@@ -51,8 +55,27 @@ public class MainActivity extends AppCompatActivity {
                 TextView name = (TextView) view.findViewById(android.R.id.text1);
                 Animal zwierz = db.pobierz(Integer.parseInt(name.getText().toString()));
                 Intent intencja = new Intent(getApplicationContext(), DodajWpis.class);
+
                 intencja.putExtra("element", zwierz);
                 startActivityForResult(intencja, 2);
+            }
+        });
+
+        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView name = (TextView) view.findViewById(android.R.id.text1);
+                MySQLite db = new MySQLite(MainActivity.this);
+                Animal zwierz = db.pobierz(Integer.parseInt(name.getText().toString()));
+
+                Integer zwierzIdInt = zwierz.get_id();
+                String zwierzId = zwierzIdInt.toString();
+                db.usun(zwierzId);
+
+                adapter.changeCursor(db.lista());
+                adapter.notifyDataSetChanged();
+
+                return true;
             }
         });
     }
@@ -86,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
             adapter.changeCursor(db.lista());
             adapter.notifyDataSetChanged();
         }
+
     }
 
 }

@@ -15,8 +15,7 @@ public class MySQLite extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase
-                                 database) {
+    public void onCreate(SQLiteDatabase database) {
         String DATABASE_CREATE =
                 "create table animals " +
                         "(_id integer primary key autoincrement," +
